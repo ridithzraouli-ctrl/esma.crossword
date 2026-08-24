@@ -6,32 +6,21 @@
     <title>Crossword</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="stars">
+<div class="decorations">
     <span>✦</span>
     <span>✧</span>
+    <span>⋆</span>
     <span>✦</span>
+    <span>˚</span>
     <span>✧</span>
+    <span>⋆</span>
     <span>✦</span>
-    <span>✧</span>
-    <span>✦</span>
-    <span>✧</span>
 </div>
 
-<div class="sparkles">
-    <span>⋆</span>
-    <span>˚</span>
-    <span>⋆</span>
-    <span>˚</span>
-    <span>⋆</span>
-    <span>˚</span>
-</div>
-
-<main class="crossword-page">
-
-    <div class="top-decoration">
+<main>
+    <div class="ornament">
         <span>✦</span>
         <i></i>
         <span>✧</span>
@@ -41,7 +30,7 @@
 
     <div id="crossword"></div>
 
-    <div class="bottom-decoration">
+    <div class="ornament bottom">
         <span>✧</span>
         <i></i>
         <span>♡</span>
@@ -50,43 +39,33 @@
     </div>
 
     <button id="check">Check</button>
-
 </main>
 
 <script>
 const grid = [
-    "..........H.....",
-    "........M..E....",
-    "........O..ANGEL",
-    "........O.R....O",
-    "......SUNSETS...",
-    "......T......T.E",
-    "......R......A..",
-    "....BEACH...R...",
-    "......W.........",
-    "......B.........",
-    "......E.........",
-    "......R.........",
-    "...M.R..........",
-    "..LILLY.........",
-    ".M.K............",
-    "BAKUGO..........",
-    ".G....C.........",
-    ".I.DREAM........",
-    ".C....A.........",
-    "..BUNNY........."
+    ".D.........",
+    ".R........B",
+    ".E..O..L..U",
+    "MAGICMOON.N",
+    "IM..E..V..N",
+    "KSTRAWBERRY",
+    "UTSUNSETS..",
+    "BAKUGOA....",
+    ".R..E.C....",
+    ".LILLYHEART"
 ];
 
 const crossword = document.getElementById("crossword");
 const inputs = [];
 
-for (let row = 0; row < 20; row++) {
-    for (let col = 0; col < 16; col++) {
+for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[row].length; col++) {
 
         const cell = document.createElement("div");
 
-        if (grid[row][col] !== ".") {
-
+        if (grid[row][col] === ".") {
+            cell.className = "blocked";
+        } else {
             cell.className = "cell";
 
             const input = document.createElement("input");
@@ -95,7 +74,6 @@ for (let row = 0; row < 20; row++) {
             input.maxLength = 1;
             input.autocomplete = "off";
             input.autocapitalize = "characters";
-
             input.dataset.answer = grid[row][col];
 
             input.addEventListener("input", () => {
@@ -118,9 +96,6 @@ for (let row = 0; row < 20; row++) {
 
             inputs.push(input);
             cell.appendChild(input);
-
-        } else {
-            cell.className = "blocked";
         }
 
         crossword.appendChild(cell);
@@ -128,12 +103,10 @@ for (let row = 0; row < 20; row++) {
 }
 
 document.getElementById("check").addEventListener("click", () => {
-
     let solved = true;
 
     inputs.forEach(input => {
-
-        input.parentElement.classList.remove("correct", "wrong");
+        input.parentElement.classList.remove("wrong", "correct");
 
         if (input.value.toUpperCase() === input.dataset.answer) {
             input.parentElement.classList.add("correct");
@@ -144,9 +117,7 @@ document.getElementById("check").addEventListener("click", () => {
     });
 
     if (solved) {
-
         localStorage.setItem("crosswordComplete", "true");
-
         document.body.classList.add("solved");
 
         setTimeout(() => {
