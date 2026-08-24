@@ -1,24 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crossword</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<div class="decorations">
-    <span>✦</span>
-    <span>✧</span>
-    <span>⋆</span>
-    <span>✦</span>
-    <span>˚</span>
-    <span>✧</span>
-    <span>⋆</span>
-    <span>✦</span>
-</div>
-
 <main>
     <div class="ornament">
         <span>✦</span>
@@ -29,6 +8,33 @@
     </div>
 
     <div id="crossword"></div>
+
+    <!-- Added Clues Container -->
+    <div class="clues-container">
+        <div class="clues-column">
+            <h3>Across</h3>
+            <ol>
+                <li value="3">your favorite character</li>
+                <li value="6">character you use as reaction images</li>
+                <li value="7">your favorite place is the -</li>
+                <li value="9">you look like an -</li>
+                <li value="10">-fields in italy</li>
+                <li value="11">something i love seeing you in</li>
+            </ol>
+        </div>
+        <div class="clues-column">
+            <h3>Down</h3>
+            <ol>
+                <li value="1">how i got you to like me</li>
+                <li value="2">you remind me of -</li>
+                <li value="3">you're my -</li>
+                <li value="4">it soothes you</li>
+                <li value="5">your favorite flowers</li>
+                <li value="8">your favorite Disney princess</li>
+                <li value="12">it's me</li>
+            </ol>
+        </div>
+    </div>
 
     <div class="ornament bottom">
         <span>✧</span>
@@ -42,21 +48,43 @@
 </main>
 
 <script>
+// Numbers mapped directly into grid tiles for display
+const numberMap = {
+    "0,7": 1,   // magic
+    "1,11": 2,  // sunsets
+    "2,7": 3,   // bakugo / bunny
+    "2,13": 4,  // ocean
+    "2,18": 5,  // lilly
+    "3,3": 6,   // miku
+    "4,1": 7,   // beach
+    "4,3": 8,   // aurora
+    "5,13": 9,  // angel
+    "6,1": 10,  // strawberry
+    "9,0": 11,  // dream
+    "9,5": 12   // moon
+};
+
 const grid = [
-    ".D.........",
-    ".R........B",
-    ".E..O..L..U",
-    "MAGICMOON.N",
-    "IM..E..V..N",
-    "KSTRAWBERRY",
-    "UTSUNSETS..",
-    "BAKUGOA....",
-    ".R..E.C....",
-    ".LILLYHEART"
+    ".......M...........",
+    ".......A....S......",
+    ".......G...BAKUGO.L",
+    "...MIKU....N.C....I",
+    ".BEACH.....S.E....L",
+    ".U...C.....E.ANGEL",
+    ".STRAWBERRYT.N....Y",
+    ".O...N.....S.......",
+    ".R.................",
+    "DREAM..............",
+    "....O..............",
+    "....O..............",
+    "....N.............."
 ];
 
 const crossword = document.getElementById("crossword");
 const inputs = [];
+
+crossword.style.display = "grid";
+crossword.style.gridTemplateColumns = `repeat(${grid[0].length}, 1fr)`;
 
 for (let row = 0; row < grid.length; row++) {
     for (let col = 0; col < grid[row].length; col++) {
@@ -68,8 +96,16 @@ for (let row = 0; row < grid.length; row++) {
         } else {
             cell.className = "cell";
 
-            const input = document.createElement("input");
+            // Add number badge if tile is the start of a word
+            const posKey = `${row},${col}`;
+            if (numberMap[posKey]) {
+                const numSpan = document.createElement("span");
+                numSpan.className = "number";
+                numSpan.innerText = numberMap[posKey];
+                cell.appendChild(numSpan);
+            }
 
+            const input = document.createElement("input");
             input.type = "text";
             input.maxLength = 1;
             input.autocomplete = "off";
@@ -125,7 +161,5 @@ document.getElementById("check").addEventListener("click", () => {
         }, 900);
     }
 });
-</script>
-
-</body>
-</html>
+                </script>
+                
