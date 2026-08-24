@@ -35,35 +35,18 @@
             justify-content: center;
         }
 
-        .title {
-            margin-bottom: 5px;
-            color: #815363;
-            font-size: 25px;
-            font-weight: normal;
-            letter-spacing: 3px;
-            text-transform: lowercase;
-        }
-
-        .subtitle {
-            margin: 0 0 18px;
-            color: #ad7a89;
-            font-size: 12px;
-            font-style: italic;
-            letter-spacing: 1px;
-        }
-
         .ornament {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 11px;
             height: 22px;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
             color: #b8798b;
         }
 
         .ornament.bottom {
-            margin: 17px 0 0;
+            margin: 25px 0 0;
         }
 
         .ornament span {
@@ -327,11 +310,6 @@
                 padding: 18px 5px;
             }
 
-            .title {
-                font-size: 21px;
-                letter-spacing: 2px;
-            }
-
             .ornament i {
                 width: 27px;
             }
@@ -407,9 +385,6 @@
             <span>✦</span>
         </div>
 
-        <div class="title">a little crossword</div>
-        <div class="subtitle">for someone very special ♡</div>
-
         <div class="crossword-wrapper">
             <div id="crossword"></div>
         </div>
@@ -423,7 +398,7 @@
                     <li value="7">your favorite place is the -</li>
                     <li value="9">you look like an -</li>
                     <li value="10">-fields in italy</li>
-                    <li value="11">something i love seeing you in</li>
+                    <li value="11">where i always see you</li>
                 </ol>
             </div>
 
@@ -431,9 +406,9 @@
                 <h3>Down</h3>
                 <ol>
                     <li value="1">how i got you to like me</li>
-                    <li value="2">you remind me of -</li>
+                    <li value="2">what you remind me of the most -</li>
                     <li value="3">you're my -</li>
-                    <li value="4">it soothes you</li>
+                    <li value="4">where you'd want to die most</li>
                     <li value="5">your favorite flowers</li>
                     <li value="8">your favorite Disney princess</li>
                     <li value="12">it's me</li>
@@ -452,106 +427,105 @@
         <button id="check">Check ♡</button>
     </main>
 
-<script>
-    const rawGrid = [
-        "........M...........",
-        "........A....S......",
-        "........G.BAKUGO...L",
-        ".......MIKU..N.C...I",
-        ".BEACH..C.N..S.E...L",
-        "...U......N..E.ANGEL",
-        ".STRAWBERRY..T.N...Y",
-        "...O................",
-        "...R................",
-        "DREAM...............",
-        "....O...............",
-        "....O...............",
-        "....N..............."
-    ];
+    <script>
+        const rawGrid = [
+            "........M...........",
+            "........A....S......",
+            "........G.BAKUGO...L",
+            ".......MIKU..N.C...I",
+            ".BEACH..C.N..S.E...L",
+            "...U......N..E.ANGEL",
+            ".STRAWBERRY..T.N...Y",
+            "...O................",
+            "...R................",
+            "DREAM...............",
+            "....O...............",
+            "....O...............",
+            "....N..............."
+        ];
 
-    const startNumbers = {
-        "0,8": 1,   // MAGIC
-        "1,13": 2,  // SUNSET
-        "2,10": 3,  // BAKUGO
-        "3,15": 4,  // OCEAN
-        "2,19": 5,  // LILLY
-        "3,7": 6,   // MIKU
-        "4,1": 7,   // BEACH
-        "4,3": 8,   // AURORA
-        "5,15": 9,  // ANGEL
-        "6,1": 10,  // STRAWBERRY
-        "9,0": 11,  // DREAM
-        "9,4": 12   // MOON
-    };
+        const startNumbers = {
+            "0,8": 1,   // MAGIC
+            "1,13": 2,  // SUNSET
+            "2,10": 3,  // BAKUGO
+            "3,15": 4,  // OCEAN
+            "2,19": 5,  // LILLY
+            "3,7": 6,   // MIKU
+            "4,1": 7,   // BEACH
+            "4,3": 8,   // AURORA
+            "5,15": 9,  // ANGEL
+            "6,1": 10,  // STRAWBERRY
+            "9,0": 11,  // DREAM
+            "9,4": 12   // MOON
+        };
 
-    const crossword = document.getElementById("crossword");
-    const inputs = [];
+        const crossword = document.getElementById("crossword");
+        const inputs = [];
 
-    const rows = rawGrid.length;
-    const cols = rawGrid[0].length;
+        const rows = rawGrid.length;
+        const cols = rawGrid[0].length;
 
-    crossword.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-    crossword.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+        crossword.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        crossword.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
 
-    for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-            const char = rawGrid[r][c].toUpperCase();
-            const cell = document.createElement("div");
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                const char = rawGrid[r][c].toUpperCase();
+                const cell = document.createElement("div");
 
-            if (char === ".") {
-                cell.className = "blocked";
-            } else {
-                cell.className = "cell";
-                const posKey = `${r},${c}`;
+                if (char === ".") {
+                    cell.className = "blocked";
+                } else {
+                    cell.className = "cell";
+                    const posKey = `${r},${c}`;
 
-                if (startNumbers[posKey]) {
-                    const numSpan = document.createElement("span");
-                    numSpan.className = "number";
-                    numSpan.innerText = startNumbers[posKey];
-                    cell.appendChild(numSpan);
+                    if (startNumbers[posKey]) {
+                        const numSpan = document.createElement("span");
+                        numSpan.className = "number";
+                        numSpan.innerText = startNumbers[posKey];
+                        cell.appendChild(numSpan);
+                    }
+
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.maxLength = 1;
+                    input.autocomplete = "off";
+                    input.autocapitalize = "characters";
+                    input.dataset.answer = char;
+
+                    input.addEventListener("input", () => {
+                        input.value = input.value.replace(/[^a-zA-Z]/g, "").toUpperCase();
+                    });
+
+                    inputs.push(input);
+                    cell.appendChild(input);
                 }
-
-                const input = document.createElement("input");
-                input.type = "text";
-                input.maxLength = 1;
-                input.autocomplete = "off";
-                input.autocapitalize = "characters";
-                input.dataset.answer = char;
-
-                input.addEventListener("input", () => {
-                    input.value = input.value.replace(/[^a-zA-Z]/g, "").toUpperCase();
-                });
-
-                inputs.push(input);
-                cell.appendChild(input);
+                crossword.appendChild(cell);
             }
-            crossword.appendChild(cell);
         }
-    }
 
-    document.getElementById("check").addEventListener("click", () => {
-        let solved = true;
+        document.getElementById("check").addEventListener("click", () => {
+            let solved = true;
 
-        inputs.forEach(input => {
-            input.parentElement.classList.remove("wrong", "correct");
+            inputs.forEach(input => {
+                input.parentElement.classList.remove("wrong", "correct");
 
-            if (input.value.toUpperCase() === input.dataset.answer) {
-                input.parentElement.classList.add("correct");
-            } else {
-                input.parentElement.classList.add("wrong");
-                solved = false;
+                if (input.value.toUpperCase() === input.dataset.answer) {
+                    input.parentElement.classList.add("correct");
+                } else {
+                    input.parentElement.classList.add("wrong");
+                    solved = false;
+                }
+            });
+
+            if (solved) {
+                localStorage.setItem("crosswordComplete", "true");
+                document.body.classList.add("solved");
+                setTimeout(() => {
+                    window.location.href = "secret.html";
+                }, 900);
             }
         });
-
-        if (solved) {
-            localStorage.setItem("crosswordComplete", "true");
-            document.body.classList.add("solved");
-            setTimeout(() => {
-                window.location.href = "secret.html";
-            }, 900);
-        }
-    });
-</script>
-
+    </script>
 </body>
 </html>
