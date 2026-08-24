@@ -6,52 +6,97 @@
     <title>Crossword</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="crossword-page">
-    <div id="crossword"></div>
-    <button id="check">Check</button>
+<div class="stars">
+    <span>✦</span>
+    <span>✧</span>
+    <span>✦</span>
+    <span>✧</span>
+    <span>✦</span>
+    <span>✧</span>
+    <span>✦</span>
+    <span>✧</span>
 </div>
+
+<div class="sparkles">
+    <span>⋆</span>
+    <span>˚</span>
+    <span>⋆</span>
+    <span>˚</span>
+    <span>⋆</span>
+    <span>˚</span>
+</div>
+
+<main class="crossword-page">
+
+    <div class="top-decoration">
+        <span>✦</span>
+        <i></i>
+        <span>✧</span>
+        <i></i>
+        <span>✦</span>
+    </div>
+
+    <div id="crossword"></div>
+
+    <div class="bottom-decoration">
+        <span>✧</span>
+        <i></i>
+        <span>♡</span>
+        <i></i>
+        <span>✧</span>
+    </div>
+
+    <button id="check">Check</button>
+
+</main>
 
 <script>
 const grid = [
-    "        H       ",
-    "        M E     ",
-    "        O ANGEL",
-    "        O R    O",
-    "      SUNSETS  V",
-    "      T      T E",
-    "      R      A  ",
-    "    BEACH    R  ",
-    "      W         ",
-    "      B         ",
-    "      E         ",
-    "      R         ",
-    "   M  R         ",
-    "  LILLY         ",
-    " M K            ",
-    "BAKUGO          ",
-    " G    C         ",
-    " I  DREAM       ",
-    " C    A         ",
-    "  BUNNY         "
+    "..........H.....",
+    "........M..E....",
+    "........O..ANGEL",
+    "........O.R....O",
+    "......SUNSETS...",
+    "......T......T.E",
+    "......R......A..",
+    "....BEACH...R...",
+    "......W.........",
+    "......B.........",
+    "......E.........",
+    "......R.........",
+    "...M.R..........",
+    "..LILLY.........",
+    ".M.K............",
+    "BAKUGO..........",
+    ".G....C.........",
+    ".I.DREAM........",
+    ".C....A.........",
+    "..BUNNY........."
 ];
 
 const crossword = document.getElementById("crossword");
+const inputs = [];
 
 for (let row = 0; row < 20; row++) {
     for (let col = 0; col < 16; col++) {
+
         const cell = document.createElement("div");
 
-        if (grid[row][col] !== " ") {
+        if (grid[row][col] !== ".") {
+
             cell.className = "cell";
 
             const input = document.createElement("input");
+
+            input.type = "text";
             input.maxLength = 1;
             input.autocomplete = "off";
             input.autocapitalize = "characters";
-            input.dataset.row = row;
-            input.dataset.col = col;
+
+            input.dataset.answer = grid[row][col];
 
             input.addEventListener("input", () => {
                 input.value = input.value
@@ -59,19 +104,21 @@ for (let row = 0; row < 20; row++) {
                     .toUpperCase();
 
                 if (input.value) {
-                    const next = findInput(row, col, 1);
+                    const next = inputs[inputs.indexOf(input) + 1];
                     if (next) next.focus();
                 }
             });
 
-            input.addEventListener("keydown", e => {
-                if (e.key === "Backspace" && !input.value) {
-                    const previous = findInput(row, col, -1);
+            input.addEventListener("keydown", event => {
+                if (event.key === "Backspace" && !input.value) {
+                    const previous = inputs[inputs.indexOf(input) - 1];
                     if (previous) previous.focus();
                 }
             });
 
+            inputs.push(input);
             cell.appendChild(input);
+
         } else {
             cell.className = "blocked";
         }
@@ -80,47 +127,31 @@ for (let row = 0; row < 20; row++) {
     }
 }
 
-function findInput(row, col, direction) {
-    const inputs = [...document.querySelectorAll("input")];
-    const current = inputs.findIndex(
-        input =>
-            Number(input.dataset.row) === row &&
-            Number(input.dataset.col) === col
-    );
-
-    return inputs[current + direction] || null;
-}
-
 document.getElementById("check").addEventListener("click", () => {
-    let correct = true;
 
-    document.querySelectorAll(".cell").forEach(cell => {
-        cell.classList.remove("wrong", "correct");
+    let solved = true;
+
+    inputs.forEach(input => {
+
+        input.parentElement.classList.remove("correct", "wrong");
+
+        if (input.value.toUpperCase() === input.dataset.answer) {
+            input.parentElement.classList.add("correct");
+        } else {
+            input.parentElement.classList.add("wrong");
+            solved = false;
+        }
     });
 
-    for (let row = 0; row < 20; row++) {
-        for (let col = 0; col < 16; col++) {
-            if (grid[row][col] === " ") continue;
+    if (solved) {
 
-            const input = document.querySelector(
-                `input[data-row="${row}"][data-col="${col}"]`
-            );
-
-            if (input.value.toUpperCase() === grid[row][col]) {
-                input.parentElement.classList.add("correct");
-            } else {
-                input.parentElement.classList.add("wrong");
-                correct = false;
-            }
-        }
-    }
-
-    if (correct) {
         localStorage.setItem("crosswordComplete", "true");
+
+        document.body.classList.add("solved");
 
         setTimeout(() => {
             window.location.href = "secret.html";
-        }, 700);
+        }, 900);
     }
 });
 </script>
