@@ -271,66 +271,22 @@
             animation: float 5s ease-in-out infinite;
         }
 
-        .decorations span:nth-child(1) {
-            top: 8%;
-            left: 8%;
-            font-size: 20px;
-        }
-
-        .decorations span:nth-child(2) {
-            top: 16%;
-            right: 10%;
-            font-size: 13px;
-        }
-
-        .decorations span:nth-child(3) {
-            top: 42%;
-            left: 5%;
-            font-size: 12px;
-        }
-
-        .decorations span:nth-child(4) {
-            top: 37%;
-            right: 5%;
-            font-size: 20px;
-        }
-
-        .decorations span:nth-child(5) {
-            bottom: 18%;
-            left: 9%;
-            font-size: 12px;
-        }
-
-        .decorations span:nth-child(6) {
-            bottom: 25%;
-            right: 8%;
-            font-size: 17px;
-        }
-
-        .decorations span:nth-child(7) {
-            bottom: 8%;
-            left: 28%;
-            font-size: 10px;
-        }
-
-        .decorations span:nth-child(8) {
-            top: 9%;
-            right: 30%;
-            font-size: 11px;
-        }
+        .decorations span:nth-child(1) { top: 8%; left: 8%; font-size: 20px; }
+        .decorations span:nth-child(2) { top: 16%; right: 10%; font-size: 13px; }
+        .decorations span:nth-child(3) { top: 42%; left: 5%; font-size: 12px; }
+        .decorations span:nth-child(4) { top: 37%; right: 5%; font-size: 20px; }
+        .decorations span:nth-child(5) { bottom: 18%; left: 9%; font-size: 12px; }
+        .decorations span:nth-child(6) { bottom: 25%; right: 8%; font-size: 17px; }
+        .decorations span:nth-child(7) { bottom: 8%; left: 28%; font-size: 10px; }
+        .decorations span:nth-child(8) { top: 9%; right: 30%; font-size: 11px; }
 
         .solved #crossword {
             animation: solved .8s ease;
         }
 
         @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0);
-            }
-
-            50% {
-                transform: translateY(-7px) rotate(7deg);
-            }
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-7px) rotate(7deg); }
         }
 
         @keyframes solved {
@@ -487,40 +443,40 @@
 
         const numberMap = {
             "0,7": 1,
-            "1,11": 2,
-            "2,7": 3,
-            "2,13": 4,
+            "1,12": 2,
+            "2,10": 3,
+            "2,14": 4,
             "2,18": 5,
-            "3,3": 6,
-            "4,1": 7,
+            "3,7": 6,
+            "4,2": 7,
             "4,3": 8,
             "5,13": 9,
-            "6,1": 10,
-            "9,0": 11,
+            "6,2": 10,
+            "9,1": 11,
             "9,5": 12
         };
 
         const grid = [
-    ".......M...........",
-    ".......A....S......",
-    ".......G...BAKUGO.L",
-    "...MIKU....N.C....I",
-    ".BEACH.....S.E....L",
-    ".U...C.....E.ANGEL",
-    ".STRAWBERRYT.N....Y",
-    ".O...N.....S.......",
-    ".R.................",
-    "DREAM..............",
-    "....O..............",
-    "....O..............",
-    "....N.............."
-];
+            ".......M...........",
+            "............S......",
+            "..........BAKUGO..L",
+            ".......MIKU.N.C...I",
+            "..BEACH.....S.E...L",
+            "...U...C....E.ANGEL",
+            "..STRAWBERRYT.N...Y",
+            "...O...N....S......",
+            "...R...............",
+            ".DREAM.............",
+            ".....O.............",
+            ".....O.............",
+            ".....N............."
+        ];
 
         const crossword = document.getElementById("crossword");
         const inputs = [];
 
-        crossword.style.gridTemplateColumns =
-            `repeat(${grid[0].length}, 1fr)`;
+        crossword.style.gridTemplateColumns = `repeat(${grid[0].length}, 1fr)`;
+        crossword.style.gridTemplateRows = `repeat(${grid.length}, 1fr)`;
 
         for (let row = 0; row < grid.length; row++) {
 
@@ -565,8 +521,7 @@
 
                         if (input.value) {
 
-                            const next =
-                                inputs[inputs.indexOf(input) + 1];
+                            const next = inputs[inputs.indexOf(input) + 1];
 
                             if (next) next.focus();
                         }
@@ -574,13 +529,9 @@
 
                     input.addEventListener("keydown", event => {
 
-                        if (
-                            event.key === "Backspace" &&
-                            !input.value
-                        ) {
+                        if (event.key === "Backspace" && !input.value) {
 
-                            const previous =
-                                inputs[inputs.indexOf(input) - 1];
+                            const previous = inputs[inputs.indexOf(input) - 1];
 
                             if (previous) previous.focus();
                         }
@@ -601,15 +552,9 @@
 
             inputs.forEach(input => {
 
-                input.parentElement.classList.remove(
-                    "wrong",
-                    "correct"
-                );
+                input.parentElement.classList.remove("wrong", "correct");
 
-                if (
-                    input.value.toUpperCase() ===
-                    input.dataset.answer
-                ) {
+                if (input.value.toUpperCase() === input.dataset.answer) {
 
                     input.parentElement.classList.add("correct");
 
@@ -623,10 +568,7 @@
 
             if (solved) {
 
-                localStorage.setItem(
-                    "crosswordComplete",
-                    "true"
-                );
+                localStorage.setItem("crosswordComplete", "true");
 
                 document.body.classList.add("solved");
 
