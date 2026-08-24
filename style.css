@@ -13,90 +13,68 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     background:
-        radial-gradient(circle at 20% 10%, #ffe5ed 0, transparent 28%),
-        radial-gradient(circle at 85% 90%, #f8dbe5 0, transparent 30%),
-        #fff6f8;
+        radial-gradient(circle at 15% 15%, #ffe4ec, transparent 28%),
+        radial-gradient(circle at 85% 80%, #f7dce5, transparent 30%),
+        #fff7f9;
     font-family: Georgia, serif;
 }
 
-.crossword-page {
+main {
     position: relative;
     z-index: 2;
-
     min-height: 100vh;
-    width: 100%;
-
+    padding: 25px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    padding: 25px 10px;
 }
 
 #crossword {
     display: grid;
-
-    grid-template-columns: repeat(16, 32px);
-    grid-template-rows: repeat(20, 32px);
-
-    width: 512px;
-    height: 640px;
-
-    background: #d7a1b3;
-    border: 3px solid #d7a1b3;
-    border-radius: 10px;
-
+    grid-template-columns: repeat(11, 38px);
+    grid-template-rows: repeat(10, 38px);
+    width: 418px;
+    height: 380px;
+    background: #d5a0b2;
+    border: 3px solid #d5a0b2;
+    border-radius: 11px;
     overflow: hidden;
-
     box-shadow:
-        0 15px 35px rgba(133, 73, 91, 0.15),
+        0 15px 35px rgba(126, 69, 87, 0.15),
         0 0 0 8px rgba(255, 255, 255, 0.45);
 }
 
 .cell {
-    width: 32px;
-    height: 32px;
-
+    width: 38px;
+    height: 38px;
     background: #fffafb;
-
-    border: 1px solid #e7cbd3;
-
-    transition:
-        background 0.15s ease,
-        transform 0.15s ease;
+    border: 1px solid #e6c8d1;
 }
 
 .blocked {
-    width: 32px;
-    height: 32px;
-    background: #d7a1b3;
+    width: 38px;
+    height: 38px;
+    background: #d5a0b2;
 }
 
 .cell input {
-    width: 32px;
-    height: 32px;
-
+    width: 100%;
+    height: 100%;
     padding: 0;
-    margin: 0;
-
     border: 0;
     outline: 0;
-
     background: transparent;
-
     text-align: center;
-
     font-family: Georgia, serif;
-    font-size: 19px;
+    font-size: 21px;
     font-weight: bold;
-
     color: #704453;
-    caret-color: #b86f84;
+    caret-color: #b66c82;
 }
 
 .cell input:focus {
-    background: #ffe2eb;
+    background: #ffe1e9;
 }
 
 .cell.correct {
@@ -108,164 +86,103 @@ body {
 }
 
 #check {
-    margin-top: 24px;
-
-    padding: 12px 32px;
-
-    border: 1px solid #d69aaa;
-    border-radius: 999px;
-
-    background: rgba(255, 250, 251, 0.9);
-
-    color: #95586d;
-
+    margin-top: 22px;
+    padding: 11px 30px;
+    border: 1px solid #d29aaa;
+    border-radius: 100px;
+    background: rgba(255, 251, 252, 0.95);
+    color: #965a6e;
     font-family: Georgia, serif;
     font-size: 16px;
-
-    box-shadow:
-        0 6px 18px rgba(133, 73, 91, 0.12);
-
-    transition:
-        transform 0.15s ease,
-        background 0.15s ease;
+    box-shadow: 0 7px 20px rgba(126, 69, 87, 0.12);
 }
 
 #check:active {
     transform: scale(0.94);
 }
 
-#check:hover {
-    background: #ffe7ed;
-}
-
-.top-decoration,
-.bottom-decoration {
+.ornament {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 10px;
-
-    height: 25px;
-
+    height: 22px;
+    margin-bottom: 12px;
     color: #c68196;
-
-    margin: 4px 0 12px;
 }
 
-.bottom-decoration {
+.ornament.bottom {
     margin: 12px 0 0;
 }
 
-.top-decoration span,
-.bottom-decoration span {
-    font-size: 17px;
+.ornament span {
+    font-size: 16px;
 }
 
-.top-decoration i,
-.bottom-decoration i {
-    display: block;
-
-    width: 35px;
+.ornament i {
+    width: 32px;
     height: 1px;
-
-    background: #dfb2bf;
+    background: #ddb1bf;
 }
 
-.stars,
-.sparkles {
+.decorations {
     position: fixed;
     inset: 0;
-
-    pointer-events: none;
-
     z-index: 1;
+    pointer-events: none;
 }
 
-.stars span,
-.sparkles span {
+.decorations span {
     position: absolute;
-
-    color: #d89bad;
-
+    color: #d496a8;
     animation: float 4s ease-in-out infinite;
 }
 
-.stars span:nth-child(1) {
-    top: 7%;
+.decorations span:nth-child(1) {
+    top: 8%;
     left: 8%;
-    font-size: 21px;
+    font-size: 20px;
 }
 
-.stars span:nth-child(2) {
-    top: 16%;
+.decorations span:nth-child(2) {
+    top: 17%;
     right: 9%;
     font-size: 14px;
 }
 
-.stars span:nth-child(3) {
-    top: 43%;
+.decorations span:nth-child(3) {
+    top: 42%;
     left: 4%;
     font-size: 13px;
 }
 
-.stars span:nth-child(4) {
-    top: 37%;
+.decorations span:nth-child(4) {
+    top: 38%;
     right: 5%;
     font-size: 21px;
 }
 
-.stars span:nth-child(5) {
-    bottom: 15%;
-    left: 8%;
+.decorations span:nth-child(5) {
+    bottom: 17%;
+    left: 9%;
+    font-size: 12px;
+}
+
+.decorations span:nth-child(6) {
+    bottom: 25%;
+    right: 8%;
     font-size: 17px;
 }
 
-.stars span:nth-child(6) {
-    bottom: 25%;
-    right: 8%;
-    font-size: 13px;
-}
-
-.stars span:nth-child(7) {
-    bottom: 7%;
-    left: 30%;
+.decorations span:nth-child(7) {
+    bottom: 8%;
+    left: 28%;
     font-size: 11px;
 }
 
-.stars span:nth-child(8) {
-    top: 8%;
-    right: 31%;
-    font-size: 10px;
-}
-
-.sparkles span:nth-child(1) {
-    top: 27%;
-    left: 11%;
-}
-
-.sparkles span:nth-child(2) {
-    top: 58%;
-    right: 10%;
-}
-
-.sparkles span:nth-child(3) {
-    top: 72%;
-    left: 5%;
-}
-
-.sparkles span:nth-child(4) {
-    top: 29%;
-    right: 4%;
-}
-
-.sparkles span:nth-child(5) {
-    bottom: 8%;
-    right: 25%;
-}
-
-.sparkles span:nth-child(6) {
-    bottom: 17%;
-    left: 27%;
+.decorations span:nth-child(8) {
+    top: 9%;
+    right: 30%;
+    font-size: 11px;
 }
 
 .solved #crossword {
@@ -273,10 +190,9 @@ body {
 }
 
 @keyframes float {
-    0%,
-    100% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0.7;
+    0%, 100% {
+        transform: translateY(0) rotate(0);
+        opacity: .65;
     }
 
     50% {
@@ -291,7 +207,7 @@ body {
     }
 
     50% {
-        transform: scale(1.025);
+        transform: scale(1.04);
     }
 
     100% {
@@ -299,53 +215,25 @@ body {
     }
 }
 
-@media (max-width: 560px) {
-
-    .crossword-page {
-        justify-content: flex-start;
-        padding-top: 30px;
+@media (max-width: 470px) {
+    main {
+        padding: 25px 6px;
     }
 
     #crossword {
-        width: 94.4vw;
-        height: 118vw;
-
-        grid-template-columns: repeat(16, 5.9vw);
-        grid-template-rows: repeat(20, 5.9vw);
+        grid-template-columns: repeat(11, 8.6vw);
+        grid-template-rows: repeat(10, 8.6vw);
+        width: 94.6vw;
+        height: 86vw;
     }
 
     .cell,
     .blocked {
-        width: 5.9vw;
-        height: 5.9vw;
+        width: 8.6vw;
+        height: 8.6vw;
     }
 
     .cell input {
-        width: 5.9vw;
-        height: 5.9vw;
-
-        font-size: 4vw;
-    }
-
-    .top-decoration {
-        margin-bottom: 12px;
-    }
-
-    .stars span:nth-child(1),
-    .stars span:nth-child(4) {
-        font-size: 17px;
-    }
-}
-
-@media (max-width: 360px) {
-
-    .crossword-page {
-        padding-left: 3px;
-        padding-right: 3px;
-    }
-
-    .stars,
-    .sparkles {
-        opacity: 0.65;
+        font-size: 4.8vw;
     }
 }
