@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Crossword ♡</title>
-
     <style>
         * {
             box-sizing: border-box;
@@ -387,7 +385,6 @@
         }
     </style>
 </head>
-
 <body>
 
     <div class="decorations">
@@ -402,7 +399,6 @@
     </div>
 
     <main>
-
         <div class="ornament">
             <span>✦</span>
             <i></i>
@@ -419,10 +415,8 @@
         </div>
 
         <div class="clues-container">
-
             <div class="clues-column">
                 <h3>Across</h3>
-
                 <ol>
                     <li value="3">your favorite character</li>
                     <li value="6">character you use as reaction images</li>
@@ -435,7 +429,6 @@
 
             <div class="clues-column">
                 <h3>Down</h3>
-
                 <ol>
                     <li value="1">how i got you to like me</li>
                     <li value="2">you remind me of -</li>
@@ -446,7 +439,6 @@
                     <li value="12">it's me</li>
                 </ol>
             </div>
-
         </div>
 
         <div class="ornament bottom">
@@ -458,66 +450,65 @@
         </div>
 
         <button id="check">Check ♡</button>
-
     </main>
 
     <script>
-        const rawGrid = [
-            "........M...........",
-            ".............S......",
-            "........G.BAKUGO...L",
-            ".......MIKU..N.C...I",
-            ".BEACH..C.N..S.E...L",
-            "..U.......N..E.ANGEL",
-            ".STRAWBERRY..T.N...Y",
-            "...O........S.......",
-            "...R................",
-            "DREAM...............",
-            "....O...............",
-            "....O...............",
-            "....N..............."
+        const words = [
+            { id: 1,  word: "MAGIC",      x: 8,  y: 0, dir: "down" },
+            { id: 2,  word: "SUNSET",     x: 13, y: 1, dir: "down" },
+            { id: 3,  word: "BAKUGO",     x: 10, y: 2, dir: "across" },
+            { id: 4,  word: "OCEAN",      x: 15, y: 3, dir: "down" },
+            { id: 5,  word: "LILLY",      x: 18, y: 2, dir: "down" },
+            { id: 6,  word: "MIKU",       x: 7,  y: 3, dir: "across" },
+            { id: 7,  word: "BEACH",      x: 1,  y: 4, dir: "across" },
+            { id: 8,  word: "AURORA",     x: 3,  y: 4, dir: "down" },
+            { id: 9,  word: "ANGEL",      x: 14, y: 5, dir: "across" },
+            { id: 10, word: "STRAWBERRY", x: 1,  y: 6, dir: "across" },
+            { id: 11, word: "DREAM",      x: 0,  y: 9, dir: "across" },
+            { id: 12, word: "MOON",       x: 4,  y: 9, dir: "down" }
         ];
 
-        // Specific start number map matching your clue numbers
-        const startNumbers = {
-            "0,8": 1,   // MAGIC (M)
-            "1,13": 2,  // SUNSET (S)
-            "2,10": 3,  // BAKUGO (B)
-            "2,15": 4,  // OCEAN (O)
-            "2,19": 5,  // LILLY (L)
-            "3,7": 6,   // MIKU (M)
-            "4,1": 7,   // BEACH (B)
-            "4,3": 8,   // AURORA (A)
-            "5,15": 9,  // ANGEL (A)
-            "6,1": 10,  // STRAWBERRY (S)
-            "9,0": 11,  // DREAM (D)
-            "9,4": 12   // MOON (M)
-        };
+        let maxX = 0, maxY = 0;
+        words.forEach(w => {
+            const endX = w.x + (w.dir === "across" ? w.word.length : 1);
+            const endY = w.y + (w.dir === "down" ? w.word.length : 1);
+            if (endX > maxX) maxX = endX;
+            if (endY > maxY) maxY = endY;
+        });
+
+        const gridMatrix = Array.from({ length: maxY }, () => Array(maxX).fill(null));
+        const numberMap = {};
+
+        words.forEach(w => {
+            numberMap[`${w.y},${w.x}`] = w.id;
+            for (let i = 0; i < w.word.length; i++) {
+                const r = w.dir === "down" ? w.y + i : w.y;
+                const c = w.dir === "across" ? w.x + i : w.x;
+                gridMatrix[r][c] = w.word[i];
+            }
+        });
 
         const crossword = document.getElementById("crossword");
         const inputs = [];
 
-        const rows = rawGrid.length;
-        const cols = rawGrid[0].length;
+        crossword.style.gridTemplateColumns = `repeat(${maxX}, 1fr)`;
+        crossword.style.gridTemplateRows = `repeat(${maxY}, 1fr)`;
 
-        crossword.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-        crossword.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-
-        for (let r = 0; r < rows; r++) {
-            for (let c = 0; c < cols; c++) {
-                const char = rawGrid[r][c].toUpperCase();
+        for (let r = 0; r < maxY; r++) {
+            for (let c = 0; c < maxX; c++) {
                 const cell = document.createElement("div");
+                const letter = gridMatrix[r][c];
 
-                if (char === ".") {
+                if (!letter) {
                     cell.className = "blocked";
                 } else {
                     cell.className = "cell";
                     const posKey = `${r},${c}`;
 
-                    if (startNumbers[posKey]) {
+                    if (numberMap[posKey]) {
                         const numSpan = document.createElement("span");
                         numSpan.className = "number";
-                        numSpan.innerText = startNumbers[posKey];
+                        numSpan.innerText = numberMap[posKey];
                         cell.appendChild(numSpan);
                     }
 
@@ -526,7 +517,7 @@
                     input.maxLength = 1;
                     input.autocomplete = "off";
                     input.autocapitalize = "characters";
-                    input.dataset.answer = char;
+                    input.dataset.answer = letter;
 
                     input.addEventListener("input", () => {
                         input.value = input.value.replace(/[^a-zA-Z]/g, "").toUpperCase();
@@ -562,6 +553,5 @@
             }
         });
     </script>
-
 </body>
 </html>
