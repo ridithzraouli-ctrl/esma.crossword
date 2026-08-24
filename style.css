@@ -3,342 +3,129 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-html {
+html,
+body {
+    margin: 0;
     min-height: 100%;
 }
 
 body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: Georgia, "Times New Roman", serif;
-    color: #67404d;
-    background: #fff5f8;
+    background: #fff4f7;
+    color: #68404d;
+    font-family: Georgia, serif;
 }
 
 .crossword-page {
-    width: 100%;
     min-height: 100vh;
-    padding: 30px 12px 45px;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.heading {
-    display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 12px;
-    color: #9d6175;
-}
-
-.heading span {
-    font-size: 17px;
-}
-
-.heading h1 {
-    margin: 0;
-    text-align: center;
-    font-size: clamp(27px, 8vw, 43px);
-    font-weight: normal;
-}
-
-.subtitle {
-    margin: 8px 0 25px;
-    text-align: center;
-    color: #a87b89;
-    font-size: 15px;
-}
-
-.crossword-container {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: auto;
-    padding: 5px 4px 18px;
-    -webkit-overflow-scrolling: touch;
+    padding: 20px 10px;
 }
 
 #crossword {
-    width: max-content;
-    margin: auto;
     display: grid;
-    grid-template-columns: repeat(16, 34px);
-    grid-template-rows: repeat(20, 34px);
-    border: 2px solid #d9a5b5;
-    border-radius: 9px;
+    grid-template-columns: repeat(16, minmax(20px, 34px));
+    grid-template-rows: repeat(20, minmax(20px, 34px));
+    background: #d7a2b3;
+    border: 2px solid #d7a2b3;
+    border-radius: 8px;
     overflow: hidden;
-    background: #d9a5b5;
-    box-shadow: 0 10px 30px rgba(130, 75, 90, 0.12);
+    width: min(100%, 544px);
+    aspect-ratio: 16 / 20;
 }
 
-.empty {
-    width: 34px;
-    height: 34px;
-    background: #d9a5b5;
+.blocked {
+    background: #d7a2b3;
 }
 
-.square {
-    width: 34px;
-    height: 34px;
+.cell {
     background: #fffafb;
-    border: 1px solid #e7cbd3;
+    border: 1px solid #e5c7d0;
+    min-width: 0;
+    min-height: 0;
 }
 
-.square input {
+.cell input {
     width: 100%;
     height: 100%;
     padding: 0;
-    margin: 0;
     border: 0;
     outline: 0;
     background: transparent;
     text-align: center;
-    font-family: Georgia, serif;
-    font-size: 20px;
-    font-weight: bold;
     color: #704453;
-    caret-color: #b86f84;
+    font-family: Georgia, serif;
+    font-size: clamp(13px, 4vw, 21px);
+    font-weight: bold;
 }
 
-.square input:focus {
-    background: #ffe4ec;
+.cell input:focus {
+    background: #ffe2eb;
 }
 
-.square.right {
-    background: #e5f3df;
+.cell.correct {
+    background: #e3f1dd;
 }
 
-.square.wrong {
-    background: #ffd9e1;
+.cell.wrong {
+    background: #ffd9e2;
 }
 
-.square.wrong input {
-    color: #c44967;
-}
-
-#checkButton {
+#check {
+    margin-top: 22px;
+    padding: 12px 30px;
     border: 0;
-    margin-top: 5px;
-    padding: 13px 29px;
-    border-radius: 100px;
+    border-radius: 30px;
     background: #b86f84;
     color: white;
     font-family: Georgia, serif;
     font-size: 17px;
-    box-shadow: 0 7px 18px rgba(130, 75, 90, 0.2);
-    transition: transform 0.15s ease;
 }
 
-#checkButton:active {
-    transform: scale(0.94);
+#check:active {
+    transform: scale(.95);
 }
 
-#result {
-    min-height: 22px;
-    margin: 14px 0 0;
-    font-size: 16px;
-}
-
-.error {
-    color: #bf536b;
-}
-
-.success {
-    color: #71945f;
-    animation: appear 0.4s ease;
-}
-
-.page-decoration {
-    position: fixed;
-    color: #e0a8b7;
-    pointer-events: none;
-}
-
-.decoration-one {
-    top: 15px;
-    left: 17px;
-    font-size: 28px;
-}
-
-.decoration-two {
-    right: 17px;
-    bottom: 15px;
-    font-size: 24px;
-}
-
-.secret {
+.secret-page {
     min-height: 100vh;
-    padding: 25px 16px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    background:
-        radial-gradient(circle at 15% 15%, #ffe2eb 0, transparent 28%),
-        radial-gradient(circle at 85% 85%, #f8dbe5 0, transparent 30%),
-        #fff5f8;
-    overflow-x: hidden;
+    justify-content: center;
+    padding: 25px;
+    background: #fff4f7;
 }
 
-.secret-card {
-    width: 100%;
-    max-width: 650px;
-    padding: 36px 24px;
+.secret-message {
+    width: min(100%, 600px);
+    min-height: 150px;
+    margin-bottom: 30px;
     text-align: center;
-    background: rgba(255, 251, 252, 0.94);
-    border: 2px solid #edccd5;
-    border-radius: 28px;
-    box-shadow: 0 20px 60px rgba(130, 75, 90, 0.12);
-    animation: cardIn 0.8s ease;
+    font-size: 18px;
+    line-height: 1.7;
 }
 
-.secret-symbol {
-    margin-bottom: 7px;
-    color: #d091a3;
-    font-size: 34px;
-    animation: sparkle 2s infinite ease-in-out;
-}
-
-.secret-card h1 {
-    margin: 0 0 24px;
-    color: #92586c;
-    font-size: clamp(34px, 10vw, 52px);
-    font-weight: normal;
-}
-
-.message {
-    color: #704957;
-    font-size: 17px;
-    line-height: 1.8;
-}
-
-.divider {
-    margin: 22px 0;
-    color: #d394a6;
-}
-
-.click-text {
-    margin: 0 0 14px;
-    color: #a16c7b;
-    font-style: italic;
-}
-
-.secret-picture {
-    position: relative;
+.secret-image {
     display: block;
-    width: 100%;
-    max-width: 500px;
-    margin: auto;
-    text-decoration: none;
-}
-
-.secret-picture img {
-    display: block;
-    width: 100%;
+    width: min(100%, 600px);
     height: auto;
-    border: 3px solid #edccd5;
     border-radius: 20px;
-    box-shadow: 0 12px 30px rgba(120, 70, 85, 0.15);
-    transition: transform 0.2s ease;
-}
-
-.secret-picture:active img {
-    transform: scale(0.97);
-}
-
-.secret-picture span {
-    position: absolute;
-    right: 13px;
-    bottom: 10px;
-    color: white;
-    font-size: 27px;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-}
-
-.under-picture {
-    margin: 12px 0 0;
-    color: #b08491;
-    font-size: 13px;
-}
-
-.floating-heart {
-    position: fixed;
-    color: #dfa6b5;
-    font-size: 27px;
-    pointer-events: none;
-}
-
-.heart-one {
-    top: 13%;
-    left: 8%;
-}
-
-.heart-two {
-    top: 20%;
-    right: 8%;
-}
-
-.heart-three {
-    bottom: 12%;
-    left: 12%;
-}
-
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: scale(0.85);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes cardIn {
-    from {
-        opacity: 0;
-        transform: translateY(22px) scale(0.97);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-@keyframes sparkle {
-    0%, 100% {
-        transform: scale(1) rotate(0);
-    }
-
-    50% {
-        transform: scale(1.18) rotate(8deg);
-    }
+    border: 3px solid #e4bdc9;
+    box-shadow: 0 12px 30px rgba(100, 55, 70, .15);
 }
 
 @media (max-width: 430px) {
-
     .crossword-page {
-        padding-top: 24px;
+        padding: 12px 5px;
     }
 
     #crossword {
-        grid-template-columns: repeat(16, 30px);
-        grid-template-rows: repeat(20, 30px);
+        width: 100%;
     }
 
-    .empty,
-    .square {
-        width: 30px;
-        height: 30px;
-    }
-
-    .square input {
-        font-size: 17px;
-    }
-
-    .secret-card {
-        padding: 30px 18px;
-        border-radius: 23px;
+    #check {
+        margin-top: 16px;
     }
 }
