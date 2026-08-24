@@ -3,190 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>♡ A Little Crossword ♡</title>
+    <title>Crossword</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <div class="page-decoration decoration-one">♡</div>
-    <div class="page-decoration decoration-two">♡</div>
+<div class="crossword-page">
+    <div id="crossword"></div>
+    <button id="check">Check</button>
+</div>
 
-    <main class="crossword-page">
-        <div class="heading">
-            <span>✦</span>
-            <h1>A Little Crossword</h1>
-            <span>✦</span>
-        </div>
+<script>
+const grid = [
+    "        H       ",
+    "        M E     ",
+    "        O ANGEL",
+    "        O R    O",
+    "      SUNSETS  V",
+    "      T      T E",
+    "      R      A  ",
+    "    BEACH    R  ",
+    "      W         ",
+    "      B         ",
+    "      E         ",
+    "      R         ",
+    "   M  R         ",
+    "  LILLY         ",
+    " M K            ",
+    "BAKUGO          ",
+    " G    C         ",
+    " I  DREAM       ",
+    " C    A         ",
+    "  BUNNY         "
+];
 
-        <p class="subtitle">A few little things that remind me of you ♡</p>
+const crossword = document.getElementById("crossword");
 
-        <div class="crossword-container">
-            <div id="crossword"></div>
-        </div>
+for (let row = 0; row < 20; row++) {
+    for (let col = 0; col < 16; col++) {
+        const cell = document.createElement("div");
 
-        <button id="checkButton">Check ♡</button>
+        if (grid[row][col] !== " ") {
+            cell.className = "cell";
 
-        <p id="result"></p>
-    </main>
+            const input = document.createElement("input");
+            input.maxLength = 1;
+            input.autocomplete = "off";
+            input.autocapitalize = "characters";
+            input.dataset.row = row;
+            input.dataset.col = col;
 
-    <script>
-        const rows = [
-            "        H       ",
-            "        M E     ",
-            "        O ANGEL",
-            "        O R    O",
-            "      SUNSETS  V",
-            "      T      T E",
-            "      R      A  ",
-            "    BEACH    R  ",
-            "      W         ",
-            "      B         ",
-            "      E         ",
-            "      R         ",
-            "   M  R         ",
-            "  LILLY         ",
-            " M K            ",
-            "BAKUGO          ",
-            " G    C         ",
-            " I  DREAM       ",
-            " C    A         ",
-            "  BUNNY         "
-        ];
+            input.addEventListener("input", () => {
+                input.value = input.value
+                    .replace(/[^a-zA-Z]/g, "")
+                    .toUpperCase();
 
-        const answers = {};
-
-        const grid = rows.map(row => {
-            const cells = row.split("");
-
-            while (cells.length < 16) {
-                cells.push(" ");
-            }
-
-            return cells.slice(0, 16);
-        });
-
-        const crossword = document.getElementById("crossword");
-
-        for (let row = 0; row < 20; row++) {
-            for (let col = 0; col < 16; col++) {
-
-                const cell = document.createElement("div");
-                const letter = grid[row][col];
-
-                if (letter !== " ") {
-                    cell.className = "square";
-
-                    const input = document.createElement("input");
-
-                    input.type = "text";
-                    input.maxLength = 1;
-                    input.autocomplete = "off";
-                    input.autocapitalize = "characters";
-                    input.dataset.row = row;
-                    input.dataset.col = col;
-
-                    input.addEventListener("input", () => {
-                        input.value = input.value
-                            .replace(/[^a-zA-Z]/g, "")
-                            .toUpperCase();
-
-                        if (input.value) {
-                            focusNext(row, col);
-                        }
-                    });
-
-                    input.addEventListener("keydown", event => {
-                        if (event.key === "Backspace" && !input.value) {
-                            focusPrevious(row, col);
-                        }
-                    });
-
-                    cell.appendChild(input);
-
-                    answers[`${row}-${col}`] = letter;
-                } else {
-                    cell.className = "empty";
-                }
-
-                crossword.appendChild(cell);
-            }
-        }
-
-        function focusNext(row, col) {
-            const inputs = [...document.querySelectorAll("#crossword input")];
-            const current = inputs.findIndex(
-                input =>
-                    Number(input.dataset.row) === row &&
-                    Number(input.dataset.col) === col
-            );
-
-            if (inputs[current + 1]) {
-                inputs[current + 1].focus();
-            }
-        }
-
-        function focusPrevious(row, col) {
-            const inputs = [...document.querySelectorAll("#crossword input")];
-            const current = inputs.findIndex(
-                input =>
-                    Number(input.dataset.row) === row &&
-                    Number(input.dataset.col) === col
-            );
-
-            if (inputs[current - 1]) {
-                inputs[current - 1].focus();
-            }
-        }
-
-        document.getElementById("checkButton").addEventListener("click", () => {
-
-            let complete = true;
-
-            document.querySelectorAll(".square").forEach(square => {
-                square.classList.remove("wrong", "right");
-            });
-
-            Object.entries(answers).forEach(([position, answer]) => {
-
-                const [row, col] = position.split("-").map(Number);
-
-                const input = document.querySelector(
-                    `input[data-row="${row}"][data-col="${col}"]`
-                );
-
-                if (!input.value) {
-                    complete = false;
-                    input.parentElement.classList.add("wrong");
-                    return;
-                }
-
-                if (input.value.toUpperCase() === answer) {
-                    input.parentElement.classList.add("right");
-                } else {
-                    complete = false;
-                    input.parentElement.classList.add("wrong");
+                if (input.value) {
+                    const next = findInput(row, col, 1);
+                    if (next) next.focus();
                 }
             });
 
-            const result = document.getElementById("result");
+            input.addEventListener("keydown", e => {
+                if (e.key === "Backspace" && !input.value) {
+                    const previous = findInput(row, col, -1);
+                    if (previous) previous.focus();
+                }
+            });
 
-            if (complete) {
-                result.textContent = "You solved it ♡";
-                result.className = "success";
+            cell.appendChild(input);
+        } else {
+            cell.className = "blocked";
+        }
 
-                localStorage.setItem("crosswordCompleted", "true");
+        crossword.appendChild(cell);
+    }
+}
 
-                setTimeout(() => {
-                    window.location.href = "secret.html";
-                }, 1200);
+function findInput(row, col, direction) {
+    const inputs = [...document.querySelectorAll("input")];
+    const current = inputs.findIndex(
+        input =>
+            Number(input.dataset.row) === row &&
+            Number(input.dataset.col) === col
+    );
 
+    return inputs[current + direction] || null;
+}
+
+document.getElementById("check").addEventListener("click", () => {
+    let correct = true;
+
+    document.querySelectorAll(".cell").forEach(cell => {
+        cell.classList.remove("wrong", "correct");
+    });
+
+    for (let row = 0; row < 20; row++) {
+        for (let col = 0; col < 16; col++) {
+            if (grid[row][col] === " ") continue;
+
+            const input = document.querySelector(
+                `input[data-row="${row}"][data-col="${col}"]`
+            );
+
+            if (input.value.toUpperCase() === grid[row][col]) {
+                input.parentElement.classList.add("correct");
             } else {
-                result.textContent = "Not quite... try again ♡";
-                result.className = "error";
+                input.parentElement.classList.add("wrong");
+                correct = false;
             }
-        });
-    </script>
+        }
+    }
+
+    if (correct) {
+        localStorage.setItem("crosswordComplete", "true");
+
+        setTimeout(() => {
+            window.location.href = "secret.html";
+        }, 700);
+    }
+});
+</script>
 
 </body>
 </html>
