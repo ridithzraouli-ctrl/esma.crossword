@@ -78,7 +78,7 @@
             background: #d4adb8;
         }
 
-        /* CROSSWORD */
+        /* CROSSWORD GRID */
 
         #crossword {
             display: grid;
@@ -426,145 +426,118 @@
     </main>
 
     <script>
-
-        const numberMap = {
-            "0,8": 1,
-            "1,13": 2,
-            "2,9": 3,
-            "2,15": 4,
-            "2,18": 5,
-            "3,4": 6,
-            "4,1": 7,
-            "4,3": 8,
-            "5,14": 9,
-            "6,1": 10,
-            "9,0": 11,
-            "9,5": 12
-        };
-
-        const grid = [
-            "........M..........",
-            ".............S.....",
-            ".........BAKUGO...L",
-            "....MIKU.....N.C..I",
-            ".BEACH.......S.E..L",
-            "..U...C......E.ANGEL",
-            ".STRAWBERRY.T.N...Y",
-            "..O...N......S.....",
-            "..R................",
-            "DREAM..............",
-            ".....O.............",
-            ".....O.............",
-            ".....N............."
+        const words = [
+            { id: 1,  word: "MAGIC",      x: 8,  y: 0, dir: "down" },
+            { id: 2,  word: "SUNSETS",    x: 12, y: 1, dir: "down" },
+            { id: 3,  word: "BAKUGO",     x: 8,  y: 2, dir: "across" },
+            { id: 4,  word: "OCEAN",      x: 14, y: 2, dir: "down" },
+            { id: 5,  word: "LILY",       x: 17, y: 2, dir: "down" },
+            { id: 6,  word: "MIKU",       x: 5,  y: 3, dir: "across" },
+            { id: 7,  word: "BEACH",      x: 1,  y: 4, dir: "across" },
+            { id: 8,  word: "AURORA",     x: 3,  y: 4, dir: "down" },
+            { id: 9,  word: "ANGEL",      x: 13, y: 5, dir: "across" },
+            { id: 10, word: "STRAWBERRY", x: 1,  y: 6, dir: "across" },
+            { id: 11, word: "DREAM",      x: 0,  y: 9, dir: "across" },
+            { id: 12, word: "MOON",       x: 4,  y: 9, dir: "down" }
         ];
+
+        let maxX = 0, maxY = 0;
+        words.forEach(w => {
+            const endX = w.x + (w.dir === "across" ? w.word.length : 1);
+            const endY = w.y + (w.dir === "down" ? w.word.length : 1);
+            if (endX > maxX) maxX = endX;
+            if (endY > maxY) maxY = endY;
+        });
+
+        const gridMatrix = Array.from({ length: maxY }, () => Array(maxX).fill(null));
+        const numberMap = {};
+
+        words.forEach(w => {
+            numberMap[`${w.y},${w.x}`] = w.id;
+            for (let i = 0; i < w.word.length; i++) {
+                const r = w.dir === "down" ? w.y + i : w.y;
+                const c = w.dir === "across" ? w.x + i : w.x;
+                gridMatrix[r][c] = w.word[i];
+            }
+        });
 
         const crossword = document.getElementById("crossword");
         const inputs = [];
 
-        crossword.style.gridTemplateColumns = `repeat(${grid[0].length}, 1fr)`;
-        crossword.style.gridTemplateRows = `repeat(${grid.length}, 1fr)`;
+        crossword.style.gridTemplateColumns = `repeat(${maxX}, 1fr)`;
+        crossword.style.gridTemplateRows = `repeat(${maxY}, 1fr)`;
 
-        for (let row = 0; row < grid.length; row++) {
-
-            for (let col = 0; col < grid[row].length; col++) {
-
+        for (let row = 0; row < maxY; row++) {
+            for (let col = 0; col < maxX; col++) {
                 const cell = document.createElement("div");
+                const letter = gridMatrix[row][col];
 
-                if (grid[row][col] === ".") {
-
+                if (!letter) {
                     cell.className = "blocked";
-
                 } else {
-
                     cell.className = "cell";
-
                     const posKey = `${row},${col}`;
 
                     if (numberMap[posKey]) {
-
                         const numSpan = document.createElement("span");
-
                         numSpan.className = "number";
                         numSpan.innerText = numberMap[posKey];
-
                         cell.appendChild(numSpan);
                     }
 
                     const input = document.createElement("input");
-
                     input.type = "text";
                     input.maxLength = 1;
                     input.autocomplete = "off";
                     input.autocapitalize = "characters";
-
-                    input.dataset.answer = grid[row][col];
+                    input.dataset.answer = letter;
 
                     input.addEventListener("input", () => {
-
-                        input.value = input.value
-                            .replace(/[^a-zA-Z]/g, "")
-                            .toUpperCase();
-
+                        input.value = input.value.replace(/[^a-zA-Z]/g, "").toUpperCase();
                         if (input.value) {
-
                             const next = inputs[inputs.indexOf(input) + 1];
-
                             if (next) next.focus();
                         }
                     });
 
                     input.addEventListener("keydown", event => {
-
                         if (event.key === "Backspace" && !input.value) {
-
                             const previous = inputs[inputs.indexOf(input) - 1];
-
                             if (previous) previous.focus();
                         }
                     });
 
                     inputs.push(input);
-
                     cell.appendChild(input);
                 }
-
                 crossword.appendChild(cell);
             }
         }
 
         document.getElementById("check").addEventListener("click", () => {
-
             let solved = true;
 
             inputs.forEach(input => {
-
                 input.parentElement.classList.remove("wrong", "correct");
 
                 if (input.value.toUpperCase() === input.dataset.answer) {
-
                     input.parentElement.classList.add("correct");
-
                 } else {
-
                     input.parentElement.classList.add("wrong");
-
                     solved = false;
                 }
             });
 
             if (solved) {
-
                 localStorage.setItem("crosswordComplete", "true");
-
                 document.body.classList.add("solved");
-
                 setTimeout(() => {
                     window.location.href = "secret.html";
                 }, 900);
             }
         });
-
     </script>
 
 </body>
-</html>
+    </html>
+    
