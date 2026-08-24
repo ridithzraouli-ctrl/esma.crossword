@@ -12,218 +12,461 @@ body {
 body {
     min-height: 100vh;
     overflow-x: hidden;
+
     background:
-        radial-gradient(circle at 15% 15%, #ffe4ec, transparent 28%),
-        radial-gradient(circle at 85% 80%, #f7dce5, transparent 30%),
-        #fff7f9;
-    font-family: Georgia, serif;
+        radial-gradient(circle at 20% 10%, rgba(236, 184, 199, 0.28), transparent 30%),
+        radial-gradient(circle at 85% 75%, rgba(225, 174, 190, 0.22), transparent 32%),
+        #fdf8f5;
+
+    color: #5f414b;
+    font-family: Georgia, "Times New Roman", serif;
 }
+
+/* --------------------------------------------------
+   MAIN PAGE
+-------------------------------------------------- */
 
 main {
     position: relative;
     z-index: 2;
+
     min-height: 100vh;
-    padding: 25px 10px;
+    padding: 30px 10px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-#crossword {
-    display: grid;
-    /* Updated for 19 columns x 13 rows */
-    grid-template-columns: repeat(19, 30px);
-    grid-template-rows: repeat(13, 30px);
-    width: 570px;
-    height: 390px;
-    background: #d5a0b2;
-    border: 3px solid #d5a0b2;
-    border-radius: 11px;
-    overflow: hidden;
-    box-shadow:
-        0 15px 35px rgba(126, 69, 87, 0.15),
-        0 0 0 8px rgba(255, 255, 255, 0.45);
-}
-
-.cell {
-    position: relative;
-    width: 30px;
-    height: 30px;
-    background: #fffafb;
-    border: 1px solid #e6c8d1;
-}
-
-/* Number badge in top-left of tile */
-.cell .number {
-    position: absolute;
-    top: 1px;
-    left: 2px;
-    font-size: 9px;
-    color: #a36175;
-    font-weight: bold;
-    pointer-events: none;
-}
-
-.blocked {
-    width: 30px;
-    height: 30px;
-    background: #d5a0b2;
-}
-
-.cell input {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    background: transparent;
-    text-align: center;
-    font-family: Georgia, serif;
-    font-size: 16px;
-    font-weight: bold;
-    color: #704453;
-    caret-color: #b66c82;
-}
-
-.cell input:focus {
-    background: #ffe1e9;
-}
-
-.cell.correct {
-    background: #e4f2df;
-}
-
-.cell.wrong {
-    background: #ffd8e1;
-}
-
-/* Clues Section Styling */
-.clues-container {
-    display: flex;
-    gap: 30px;
-    margin-top: 20px;
-    width: 100%;
-    max-width: 570px;
-    color: #704453;
-}
-
-.clues-column {
-    flex: 1;
-}
-
-.clues-column h3 {
-    margin: 0 0 10px 0;
-    font-size: 18px;
-    border-bottom: 2px solid #ddb1bf;
-    padding-bottom: 4px;
-}
-
-.clues-column ol {
-    margin: 0;
-    padding-left: 20px;
-    font-size: 14px;
-    line-height: 1.6;
-}
-
-.clues-column li {
-    margin-bottom: 6px;
-}
-
-#check {
-    margin-top: 22px;
-    padding: 11px 30px;
-    border: 1px solid #d29aaa;
-    border-radius: 100px;
-    background: rgba(255, 251, 252, 0.95);
-    color: #965a6e;
-    font-family: Georgia, serif;
-    font-size: 16px;
-    box-shadow: 0 7px 20px rgba(126, 69, 87, 0.12);
-    cursor: pointer;
-}
-
-#check:active {
-    transform: scale(0.94);
-}
+/* --------------------------------------------------
+   DECORATIVE TOP / BOTTOM ORNAMENT
+-------------------------------------------------- */
 
 .ornament {
     display: flex;
     align-items: center;
-    gap: 10px;
-    height: 22px;
-    margin-bottom: 12px;
-    color: #c68196;
+    justify-content: center;
+    gap: 11px;
+
+    height: 24px;
+    margin-bottom: 18px;
+
+    color: #b77a8b;
+    opacity: 0.9;
 }
 
 .ornament.bottom {
-    margin: 12px 0 0;
+    margin: 18px 0 0;
 }
 
 .ornament span {
-    font-size: 16px;
+    font-size: 17px;
+    line-height: 1;
 }
 
 .ornament i {
-    width: 32px;
+    display: block;
+
+    width: 42px;
     height: 1px;
-    background: #ddb1bf;
+
+    background: linear-gradient(
+        to right,
+        transparent,
+        #cfa2ad,
+        transparent
+    );
 }
+
+/* --------------------------------------------------
+   CROSSWORD
+-------------------------------------------------- */
+
+#crossword {
+    display: grid;
+
+    grid-template-columns: repeat(19, 30px);
+    grid-template-rows: repeat(13, 30px);
+
+    width: 570px;
+    height: 390px;
+
+    padding: 5px;
+
+    background: #c996a6;
+
+    border: 1px solid #b87d8f;
+    border-radius: 8px;
+
+    box-shadow:
+        0 3px 0 rgba(126, 75, 89, 0.12),
+        0 12px 30px rgba(104, 63, 76, 0.13),
+        0 0 0 5px rgba(255, 255, 255, 0.7);
+
+    overflow: hidden;
+}
+
+/* --------------------------------------------------
+   INDIVIDUAL CELLS
+-------------------------------------------------- */
+
+.cell {
+    position: relative;
+
+    width: 30px;
+    height: 30px;
+
+    background: #fffdfb;
+
+    border: 1px solid #ead9dc;
+
+    transition:
+        background 0.15s ease,
+        transform 0.1s ease;
+}
+
+.cell:hover {
+    background: #fff8fa;
+}
+
+/* --------------------------------------------------
+   BLOCKED CELLS
+-------------------------------------------------- */
+
+.blocked {
+    width: 30px;
+    height: 30px;
+
+    background: #c996a6;
+
+    border: 0;
+}
+
+/* --------------------------------------------------
+   NUMBER
+-------------------------------------------------- */
+
+.cell .number {
+    position: absolute;
+
+    top: 2px;
+    left: 3px;
+
+    z-index: 2;
+
+    font-family: Georgia, serif;
+    font-size: 8px;
+    line-height: 1;
+
+    color: #9c6577;
+
+    font-weight: bold;
+
+    pointer-events: none;
+}
+
+/* --------------------------------------------------
+   INPUT
+-------------------------------------------------- */
+
+.cell input {
+    width: 100%;
+    height: 100%;
+
+    padding: 3px 1px 0;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    text-align: center;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    font-weight: bold;
+
+    color: #62414b;
+
+    caret-color: #ae6f82;
+
+    cursor: text;
+}
+
+.cell input::selection {
+    background: #edcbd4;
+}
+
+.cell input:focus {
+    background: #fce8ed;
+
+    box-shadow:
+        inset 0 0 0 2px #d69bab;
+}
+
+/* --------------------------------------------------
+   ANSWER STATES
+-------------------------------------------------- */
+
+.cell.correct {
+    background: #edf4e9;
+    border-color: #cbdcc3;
+}
+
+.cell.wrong {
+    background: #fbe0e5;
+    border-color: #e3aebb;
+}
+
+/* --------------------------------------------------
+   CLUES
+-------------------------------------------------- */
+
+.clues-container {
+    display: flex;
+
+    gap: 38px;
+
+    margin-top: 22px;
+
+    width: 100%;
+    max-width: 570px;
+
+    color: #664650;
+}
+
+.clues-column {
+    flex: 1;
+    min-width: 0;
+}
+
+.clues-column h3 {
+    margin: 0 0 10px;
+
+    padding-bottom: 7px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    font-weight: normal;
+
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+
+    color: #a46376;
+
+    border-bottom: 1px solid #dcbac4;
+}
+
+.clues-column ol {
+    margin: 0;
+
+    padding-left: 25px;
+
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.clues-column li {
+    margin-bottom: 6px;
+
+    padding-left: 3px;
+}
+
+.clues-column li::marker {
+    color: #a76b7c;
+    font-weight: bold;
+}
+
+/* --------------------------------------------------
+   CHECK BUTTON
+-------------------------------------------------- */
+
+#check {
+    margin-top: 21px;
+
+    padding: 10px 29px;
+
+    border: 1px solid #c58c9d;
+    border-radius: 999px;
+
+    background: #fffaf9;
+
+    color: #965d70;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+
+    box-shadow:
+        0 4px 12px rgba(116, 69, 83, 0.10);
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+#check:hover {
+    background: #fdf0f3;
+
+    box-shadow:
+        0 6px 16px rgba(116, 69, 83, 0.14);
+}
+
+#check:active {
+    transform: translateY(1px) scale(0.97);
+}
+
+/* --------------------------------------------------
+   FLOATING DECORATIONS
+-------------------------------------------------- */
 
 .decorations {
     position: fixed;
+
     inset: 0;
+
     z-index: 1;
+
     pointer-events: none;
 }
 
 .decorations span {
     position: absolute;
-    color: #d496a8;
-    animation: float 4s ease-in-out infinite;
+
+    color: #c98fa1;
+
+    opacity: 0.55;
+
+    animation: float 5s ease-in-out infinite;
 }
 
-.decorations span:nth-child(1) { top: 8%; left: 8%; font-size: 20px; }
-.decorations span:nth-child(2) { top: 17%; right: 9%; font-size: 14px; }
-.decorations span:nth-child(3) { top: 42%; left: 4%; font-size: 13px; }
-.decorations span:nth-child(4) { top: 38%; right: 5%; font-size: 21px; }
-.decorations span:nth-child(5) { bottom: 17%; left: 9%; font-size: 12px; }
-.decorations span:nth-child(6) { bottom: 25%; right: 8%; font-size: 17px; }
-.decorations span:nth-child(7) { bottom: 8%; left: 28%; font-size: 11px; }
-.decorations span:nth-child(8) { top: 9%; right: 30%; font-size: 11px; }
+.decorations span:nth-child(1) {
+    top: 8%;
+    left: 8%;
+    font-size: 19px;
+}
+
+.decorations span:nth-child(2) {
+    top: 16%;
+    right: 10%;
+    font-size: 13px;
+    animation-delay: -1s;
+}
+
+.decorations span:nth-child(3) {
+    top: 43%;
+    left: 5%;
+    font-size: 12px;
+    animation-delay: -2s;
+}
+
+.decorations span:nth-child(4) {
+    top: 37%;
+    right: 5%;
+    font-size: 20px;
+    animation-delay: -3s;
+}
+
+.decorations span:nth-child(5) {
+    bottom: 18%;
+    left: 9%;
+    font-size: 12px;
+    animation-delay: -1.5s;
+}
+
+.decorations span:nth-child(6) {
+    bottom: 25%;
+    right: 8%;
+    font-size: 17px;
+    animation-delay: -3.5s;
+}
+
+.decorations span:nth-child(7) {
+    bottom: 8%;
+    left: 28%;
+    font-size: 10px;
+    animation-delay: -2.5s;
+}
+
+.decorations span:nth-child(8) {
+    top: 9%;
+    right: 30%;
+    font-size: 11px;
+    animation-delay: -4s;
+}
+
+/* --------------------------------------------------
+   SOLVED ANIMATION
+-------------------------------------------------- */
 
 .solved #crossword {
     animation: solved 0.8s ease;
 }
 
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0) rotate(0);
-        opacity: .65;
-    }
-    50% {
-        transform: translateY(-7px) rotate(8deg);
-        opacity: 1;
-    }
-}
-
 @keyframes solved {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.04); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.035);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
-/* Mobile Responsiveness for 19 columns */
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateY(-7px) rotate(7deg);
+        opacity: 0.8;
+    }
+}
+
+/* --------------------------------------------------
+   MOBILE
+-------------------------------------------------- */
+
 @media (max-width: 600px) {
+
     main {
-        padding: 15px 4px;
+        padding: 18px 5px;
+    }
+
+    .ornament {
+        margin-bottom: 14px;
+    }
+
+    .ornament i {
+        width: 28px;
     }
 
     #crossword {
         grid-template-columns: repeat(19, 5vw);
         grid-template-rows: repeat(13, 5vw);
+
         width: 95vw;
         height: 65vw;
+
+        padding: 3px;
+
+        border-radius: 7px;
+
+        box-shadow:
+            0 3px 0 rgba(126, 75, 89, 0.10),
+            0 9px 22px rgba(104, 63, 76, 0.12),
+            0 0 0 4px rgba(255, 255, 255, 0.7);
     }
 
     .cell,
@@ -233,15 +476,45 @@ main {
     }
 
     .cell input {
-        font-size: 3vw;
+        font-size: 3.2vw;
+        padding-top: 0;
     }
 
     .cell .number {
-        font-size: 1.8vw;
+        top: 1px;
+        left: 2px;
+        font-size: 1.7vw;
     }
 
     .clues-container {
-        flex-direction: column;
-        gap: 15px;
+        gap: 17px;
+
+        margin-top: 18px;
+
+        max-width: 95vw;
     }
+
+    .clues-column h3 {
+        font-size: 14px;
+        letter-spacing: 1.2px;
     }
+
+    .clues-column ol {
+        padding-left: 21px;
+
+        font-size: 12.5px;
+        line-height: 1.5;
+    }
+
+    .clues-column li {
+        margin-bottom: 5px;
+    }
+
+    #check {
+        margin-top: 18px;
+
+        padding: 9px 26px;
+
+        font-size: 14px;
+    }
+        }
