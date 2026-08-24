@@ -78,13 +78,35 @@
             background: #d4adb8;
         }
 
+        /* SCROLLABLE WRAPPER */
+
+        .crossword-wrapper {
+            width: 100%;
+            max-width: 620px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 10px 5px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .crossword-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .crossword-wrapper::-webkit-scrollbar-thumb {
+            background: #d4adb8;
+            border-radius: 10px;
+        }
+
         /* CROSSWORD GRID */
 
         #crossword {
             display: grid;
-            width: 570px;
-            height: 390px;
-            padding: 5px;
+            width: 100%;
+            min-width: 580px;
+            height: 440px;
+            padding: 6px;
 
             background: #b98294;
             border: 1px solid #a96e81;
@@ -94,8 +116,6 @@
                 0 3px 0 rgba(91, 52, 65, .12),
                 0 15px 35px rgba(91, 52, 65, .14),
                 0 0 0 6px rgba(255,255,255,.65);
-
-            overflow: hidden;
         }
 
         .cell {
@@ -105,6 +125,10 @@
 
             background: #fffdfb;
             border: 1px solid #ead9dd;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             transition: background .15s ease;
         }
@@ -125,31 +149,38 @@
             left: 3px;
 
             color: #a26778;
-            font-size: 8px;
+            font-size: 9px;
             line-height: 1;
             font-weight: bold;
 
             pointer-events: none;
+            z-index: 2;
         }
 
         .cell input {
             width: 100%;
             height: 100%;
 
-            padding: 3px 1px 0;
+            margin: 0;
+            padding: 0;
 
             border: 0;
             outline: 0;
             background: transparent;
 
             text-align: center;
+            line-height: 1;
 
             color: #63434d;
             caret-color: #ae7183;
 
             font-family: Georgia, "Times New Roman", serif;
-            font-size: 17px;
+            font-size: 18px;
             font-weight: bold;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .cell input:focus {
@@ -176,7 +207,7 @@
             margin-top: 23px;
 
             width: 100%;
-            max-width: 570px;
+            max-width: 580px;
 
             color: #60434c;
         }
@@ -307,22 +338,25 @@
                 width: 27px;
             }
 
+            .crossword-wrapper {
+                justify-content: flex-start;
+            }
+
             #crossword {
-                width: 95vw;
-                height: 65vw;
-                padding: 3px;
-                border-radius: 6px;
+                min-width: 500px;
+                height: 85vw;
+                max-height: 420px;
+                padding: 4px;
             }
 
             .cell input {
-                font-size: 3.2vw;
-                padding: 0;
+                font-size: 16px;
             }
 
             .cell .number {
                 top: 1px;
                 left: 2px;
-                font-size: 1.7vw;
+                font-size: 8px;
             }
 
             .clues-container {
@@ -380,7 +414,9 @@
         <div class="title">a little crossword</div>
         <div class="subtitle">for someone very special ♡</div>
 
-        <div id="crossword"></div>
+        <div class="crossword-wrapper">
+            <div id="crossword"></div>
+        </div>
 
         <div class="clues-container">
 
@@ -539,5 +575,4 @@
     </script>
 
 </body>
-    </html>
-    
+</html>
