@@ -464,14 +464,14 @@
     <script>
         const words = [
             { id: 1,  word: "MAGIC",      x: 8,  y: 0, dir: "down" },
-            { id: 2,  word: "SUNSETS",    x: 12, y: 1, dir: "down" },
-            { id: 3,  word: "BAKUGO",     x: 8,  y: 2, dir: "across" },
-            { id: 4,  word: "OCEAN",      x: 14, y: 2, dir: "down" },
-            { id: 5,  word: "LILY",       x: 17, y: 2, dir: "down" },
-            { id: 6,  word: "MIKU",       x: 5,  y: 3, dir: "across" },
+            { id: 2,  word: "SUNSET",     x: 13, y: 1, dir: "down" },
+            { id: 3,  word: "BAKUGO",     x: 10, y: 2, dir: "across" },
+            { id: 4,  word: "OCEAN",      x: 15, y: 2, dir: "down" },
+            { id: 5,  word: "LILLY",      x: 18, y: 2, dir: "down" },
+            { id: 6,  word: "MIKU",       x: 7,  y: 3, dir: "across" },
             { id: 7,  word: "BEACH",      x: 1,  y: 4, dir: "across" },
             { id: 8,  word: "AURORA",     x: 3,  y: 4, dir: "down" },
-            { id: 9,  word: "ANGEL",      x: 13, y: 5, dir: "across" },
+            { id: 9,  word: "ANGEL",      x: 14, y: 5, dir: "across" },
             { id: 10, word: "STRAWBERRY", x: 1,  y: 6, dir: "across" },
             { id: 11, word: "DREAM",      x: 0,  y: 9, dir: "across" },
             { id: 12, word: "MOON",       x: 4,  y: 9, dir: "down" }
@@ -530,17 +530,6 @@
 
                     input.addEventListener("input", () => {
                         input.value = input.value.replace(/[^a-zA-Z]/g, "").toUpperCase();
-                        if (input.value) {
-                            const next = inputs[inputs.indexOf(input) + 1];
-                            if (next) next.focus();
-                        }
-                    });
-
-                    input.addEventListener("keydown", event => {
-                        if (event.key === "Backspace" && !input.value) {
-                            const previous = inputs[inputs.indexOf(input) - 1];
-                            if (previous) previous.focus();
-                        }
                     });
 
                     inputs.push(input);
@@ -575,4 +564,5 @@
     </script>
 
 </body>
-</html>
+            </html>
+                        
