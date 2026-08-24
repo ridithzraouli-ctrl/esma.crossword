@@ -32,10 +32,11 @@ main {
 
 #crossword {
     display: grid;
-    grid-template-columns: repeat(11, 38px);
-    grid-template-rows: repeat(10, 38px);
-    width: 418px;
-    height: 380px;
+    /* Updated for 19 columns x 13 rows */
+    grid-template-columns: repeat(19, 30px);
+    grid-template-rows: repeat(13, 30px);
+    width: 570px;
+    height: 390px;
     background: #d5a0b2;
     border: 3px solid #d5a0b2;
     border-radius: 11px;
@@ -46,15 +47,27 @@ main {
 }
 
 .cell {
-    width: 38px;
-    height: 38px;
+    position: relative;
+    width: 30px;
+    height: 30px;
     background: #fffafb;
     border: 1px solid #e6c8d1;
 }
 
+/* Number badge in top-left of tile */
+.cell .number {
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    font-size: 9px;
+    color: #a36175;
+    font-weight: bold;
+    pointer-events: none;
+}
+
 .blocked {
-    width: 38px;
-    height: 38px;
+    width: 30px;
+    height: 30px;
     background: #d5a0b2;
 }
 
@@ -67,7 +80,7 @@ main {
     background: transparent;
     text-align: center;
     font-family: Georgia, serif;
-    font-size: 21px;
+    font-size: 16px;
     font-weight: bold;
     color: #704453;
     caret-color: #b66c82;
@@ -85,6 +98,38 @@ main {
     background: #ffd8e1;
 }
 
+/* Clues Section Styling */
+.clues-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 570px;
+    color: #704453;
+}
+
+.clues-column {
+    flex: 1;
+}
+
+.clues-column h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    border-bottom: 2px solid #ddb1bf;
+    padding-bottom: 4px;
+}
+
+.clues-column ol {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.clues-column li {
+    margin-bottom: 6px;
+}
+
 #check {
     margin-top: 22px;
     padding: 11px 30px;
@@ -95,6 +140,7 @@ main {
     font-family: Georgia, serif;
     font-size: 16px;
     box-shadow: 0 7px 20px rgba(126, 69, 87, 0.12);
+    cursor: pointer;
 }
 
 #check:active {
@@ -137,53 +183,14 @@ main {
     animation: float 4s ease-in-out infinite;
 }
 
-.decorations span:nth-child(1) {
-    top: 8%;
-    left: 8%;
-    font-size: 20px;
-}
-
-.decorations span:nth-child(2) {
-    top: 17%;
-    right: 9%;
-    font-size: 14px;
-}
-
-.decorations span:nth-child(3) {
-    top: 42%;
-    left: 4%;
-    font-size: 13px;
-}
-
-.decorations span:nth-child(4) {
-    top: 38%;
-    right: 5%;
-    font-size: 21px;
-}
-
-.decorations span:nth-child(5) {
-    bottom: 17%;
-    left: 9%;
-    font-size: 12px;
-}
-
-.decorations span:nth-child(6) {
-    bottom: 25%;
-    right: 8%;
-    font-size: 17px;
-}
-
-.decorations span:nth-child(7) {
-    bottom: 8%;
-    left: 28%;
-    font-size: 11px;
-}
-
-.decorations span:nth-child(8) {
-    top: 9%;
-    right: 30%;
-    font-size: 11px;
-}
+.decorations span:nth-child(1) { top: 8%; left: 8%; font-size: 20px; }
+.decorations span:nth-child(2) { top: 17%; right: 9%; font-size: 14px; }
+.decorations span:nth-child(3) { top: 42%; left: 4%; font-size: 13px; }
+.decorations span:nth-child(4) { top: 38%; right: 5%; font-size: 21px; }
+.decorations span:nth-child(5) { bottom: 17%; left: 9%; font-size: 12px; }
+.decorations span:nth-child(6) { bottom: 25%; right: 8%; font-size: 17px; }
+.decorations span:nth-child(7) { bottom: 8%; left: 28%; font-size: 11px; }
+.decorations span:nth-child(8) { top: 9%; right: 30%; font-size: 11px; }
 
 .solved #crossword {
     animation: solved 0.8s ease;
@@ -194,7 +201,6 @@ main {
         transform: translateY(0) rotate(0);
         opacity: .65;
     }
-
     50% {
         transform: translateY(-7px) rotate(8deg);
         opacity: 1;
@@ -202,38 +208,40 @@ main {
 }
 
 @keyframes solved {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.04);
-    }
-
-    100% {
-        transform: scale(1);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+    100% { transform: scale(1); }
 }
 
-@media (max-width: 470px) {
+/* Mobile Responsiveness for 19 columns */
+@media (max-width: 600px) {
     main {
-        padding: 25px 6px;
+        padding: 15px 4px;
     }
 
     #crossword {
-        grid-template-columns: repeat(11, 8.6vw);
-        grid-template-rows: repeat(10, 8.6vw);
-        width: 94.6vw;
-        height: 86vw;
+        grid-template-columns: repeat(19, 5vw);
+        grid-template-rows: repeat(13, 5vw);
+        width: 95vw;
+        height: 65vw;
     }
 
     .cell,
     .blocked {
-        width: 8.6vw;
-        height: 8.6vw;
+        width: 5vw;
+        height: 5vw;
     }
 
     .cell input {
-        font-size: 4.8vw;
+        font-size: 3vw;
     }
-}
+
+    .cell .number {
+        font-size: 1.8vw;
+    }
+
+    .clues-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    }
