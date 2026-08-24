@@ -82,12 +82,8 @@
 
         #crossword {
             display: grid;
-            grid-template-columns: repeat(19, 30px);
-            grid-template-rows: repeat(13, 30px);
-
             width: 570px;
             height: 390px;
-
             padding: 5px;
 
             background: #b98294;
@@ -104,8 +100,8 @@
 
         .cell {
             position: relative;
-            width: 30px;
-            height: 30px;
+            width: 100%;
+            height: 100%;
 
             background: #fffdfb;
             border: 1px solid #ead9dd;
@@ -118,8 +114,8 @@
         }
 
         .blocked {
-            width: 30px;
-            height: 30px;
+            width: 100%;
+            height: 100%;
             background: #b98294;
         }
 
@@ -312,20 +308,10 @@
             }
 
             #crossword {
-                grid-template-columns: repeat(19, 5vw);
-                grid-template-rows: repeat(13, 5vw);
-
                 width: 95vw;
                 height: 65vw;
-
                 padding: 3px;
                 border-radius: 6px;
-            }
-
-            .cell,
-            .blocked {
-                width: 5vw;
-                height: 5vw;
             }
 
             .cell input {
@@ -442,31 +428,31 @@
     <script>
 
         const numberMap = {
-            "0,7": 1,
-            "1,12": 2,
-            "2,10": 3,
-            "2,14": 4,
+            "0,8": 1,
+            "1,13": 2,
+            "2,9": 3,
+            "2,15": 4,
             "2,18": 5,
-            "3,7": 6,
-            "4,2": 7,
+            "3,4": 6,
+            "4,1": 7,
             "4,3": 8,
-            "5,13": 9,
-            "6,2": 10,
-            "9,1": 11,
+            "5,14": 9,
+            "6,1": 10,
+            "9,0": 11,
             "9,5": 12
         };
 
         const grid = [
-            ".......M...........",
-            "............S......",
-            "..........BAKUGO..L",
-            ".......MIKU.N.C...I",
-            "..BEACH.....S.E...L",
-            "...U...C....E.ANGEL",
-            "..STRAWBERRYT.N...Y",
-            "...O...N....S......",
-            "...R...............",
-            ".DREAM.............",
+            "........M..........",
+            ".............S.....",
+            ".........BAKUGO...L",
+            "....MIKU.....N.C..I",
+            ".BEACH.......S.E..L",
+            "..U...C......E.ANGEL",
+            ".STRAWBERRY.T.N...Y",
+            "..O...N......S.....",
+            "..R................",
+            "DREAM..............",
             ".....O.............",
             ".....O.............",
             ".....N............."
